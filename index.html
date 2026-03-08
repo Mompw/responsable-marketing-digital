@@ -9,6 +9,10 @@
             body { margin: 0; padding: 0; }
             .page { page-break-after: avoid; margin: 0; box-shadow: none; }
             .btn-export { display: none; }
+            /* Pour l'impression, on autorise tout le contenu à s'afficher sur plusieurs pages si besoin */
+            .page { height: auto; overflow: visible; }
+            .main-grid { height: auto; overflow: visible; }
+            .main-content { overflow: visible; height: auto; }
         }
         
         * {
@@ -25,12 +29,14 @@
         
         .page {
             width: 210mm;
-            height: 297mm;
+            height: 297mm; /* Taille A4 fixe */
             background: white;
             margin: 0 auto;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             padding: 0;
-            overflow: hidden;
+            overflow: hidden; /* La page elle-même ne défile pas */
+            display: flex;
+            flex-direction: column;
         }
         
         .header {
@@ -38,6 +44,7 @@
             padding: 35px 40px;
             color: white;
             position: relative;
+            flex-shrink: 0;
         }
         
         .header-content {
@@ -97,18 +104,30 @@
         .main-grid {
             display: grid;
             grid-template-columns: 280px 1fr;
-            height: calc(297mm - 160px);
+            flex-grow: 1; /* Remplit l'espace restant de la page A4 */
+            overflow: hidden;
         }
         
         .sidebar {
             background: #f8f9fa;
             padding: 30px 25px;
             border-right: 1px solid #e0e0e0;
+            overflow-y: auto; /* Permet le scroll à gauche si les compétences sont trop longues */
         }
         
         .main-content {
             padding: 30px 40px;
-            overflow-y: auto;
+            overflow-y: auto; /* Active l'ascenseur pour les expériences et formations */
+            background: white;
+        }
+
+        /* Personnalisation de l'ascenseur pour le confort visuel */
+        .main-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .main-content::-webkit-scrollbar-thumb {
+            background: #0660dd;
+            border-radius: 10px;
         }
         
         .section {
@@ -183,11 +202,6 @@
             font-size: 9px;
             color: #555;
             transition: all 0.2s;
-        }
-        
-        .tool-tag:hover {
-            border-color: #0660dd;
-            color: #0660dd;
         }
         
         .languages-list {
@@ -293,11 +307,6 @@
             gap: 6px;
         }
         
-        .results-title:before {
-            content: '📈';
-            font-size: 12px;
-        }
-        
         .results-box ul {
             font-size: 9px;
             margin-left: 18px;
@@ -345,19 +354,8 @@
             font-weight: 600;
             font-size: 13px;
             box-shadow: 0 4px 12px rgba(6, 96, 221, 0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
             z-index: 1000;
         }
-        
-        .btn-export:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(6, 96, 221, 0.4);
-        }
-        
-        .color-accent-1 { color: #0660dd; }
-        .color-accent-2 { color: #01bb51; }
-        .color-accent-3 { color: #fe5d42; }
-        .color-accent-4 { color: #fed122; }
     </style>
 </head>
 <body>
@@ -418,7 +416,6 @@
                             <div class="tool-tag">Keyword planner</div>
                             <div class="tool-tag">Tag manager</div>
                             <div class="tool-tag">Meta ads</div>
-
                         </div>
                     </div>
                     
@@ -435,7 +432,6 @@
                             <div class="tool-tag">Json</div>
                             <div class="tool-tag">Antigravity</div>
                             <div class="tool-tag">Apify</div>
-                            
                         </div>
                     </div>
                     
@@ -449,11 +445,10 @@
                             <div class="tool-tag">Make</div>
                             <div class="tool-tag">N8N</div>
                             <div class="tool-tag">Brevo</div>
-                            
                         </div>
                     </div>
 
-                      <div class="skill-category">
+                    <div class="skill-category">
                         <div class="skill-cat-title">Gestion de projet digital & outils collaboratifs</div>
                         <div class="tools-grid">
                             <div class="tool-tag">Trello</div>
@@ -462,7 +457,6 @@
                             <div class="tool-tag">Canva</div>
                             <div class="tool-tag">Suite Office</div>
                             <div class="tool-tag">Google Workspace</div>
-                         
                         </div>
                     </div>
                 </div>
@@ -488,7 +482,7 @@
             
             <div class="main-content">
                 <div class="objectif">
-                    <strong>Profil :</strong>Chef de projet digital certifié et expert SEO, j’allie expertise en acquisition organique et pilotage de la performance digitale pour maximiser la visibilité et la génération de leads. Fort d’une solide culture data-driven et d’une expérience en optimisation de parcours utilisateurs (UX/CRO), je conçois des stratégies multicanales orientées ROI. Proactif et rigoureux, je suis passionné par l'innovation digitale et m'attache à déployer des solutions agiles pour soutenir le rayonnement et la croissance de projets ambitieux.
+                    <strong>Profil :</strong> Chef de projet digital certifié et expert SEO, j’allie expertise en acquisition organique et pilotage de la performance digitale pour maximiser la visibilité et la génération de leads. Fort d’une solide culture data-driven et d’une expérience en optimisation de parcours utilisateurs (UX/CRO), je conçois des stratégies multicanales orientées ROI. Proactif et rigoureux, je suis passionné par l'innovation digitale et m'attache à déployer des solutions agiles pour soutenir le rayonnement et la croissance de projets ambitieux.
                 </div>
                 
                 <div class="section">
@@ -528,7 +522,7 @@
                             </ul>
                         </div>
                         <div class="results-box">
-                            <div class="results-title">Résultats mesurables</div>
+                            <div class="results-title">📈 Résultats mesurables</div>
                             <ul>
                                 <li><strong>+5000% de clics organiques</strong> sur le blog</li>
                                 <li>Position moyenne : <strong>Top 10</strong> sur mots-clés stratégiques</li>
@@ -554,7 +548,6 @@
                                 <li>Conseil et assistance par mail, téléphone & chat </li>
                                 <li>Gestion des dépôts bancaires </li>
                                 <li>Présentation et compte rendu des données statistiques des renouvellements</li> 
-
                             </ul>
                         </div>
                     </div>
